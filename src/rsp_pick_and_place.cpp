@@ -20,7 +20,7 @@ RspPickandPlace::RspPickandPlace()
 }
 RspPickandPlace::~RspPickandPlace()
 {
-  if (ros::isStarted()) 
+  if (ros::isStarted())
   {
     ros::shutdown();
     ros::waitForShutdown();
@@ -69,7 +69,7 @@ bool RspPickandPlace::setToolControl(std::vector<double> joint_angle)
   return false;
 }
 
-bool RspPickandPlace::setTaskSpacePath(std::vector<double> kinematics_pose,std::vector<double> kienmatics_orientation, double path_time)
+bool RspPickandPlace::setTaskSpacePath(std::vector<double> kinematics_pose,std::vector<double> kinematics_orientation, double path_time)
 {
   open_manipulator_msgs::SetKinematicsPose srv;
 
@@ -79,10 +79,10 @@ bool RspPickandPlace::setTaskSpacePath(std::vector<double> kinematics_pose,std::
   srv.request.kinematics_pose.pose.position.y = kinematics_pose.at(1);
   srv.request.kinematics_pose.pose.position.z = kinematics_pose.at(2);
 
-  srv.request.kinematics_pose.pose.orientation.w = kienmatics_orientation.at(0);
-  srv.request.kinematics_pose.pose.orientation.x = kienmatics_orientation.at(1);
-  srv.request.kinematics_pose.pose.orientation.y = kienmatics_orientation.at(2);
-  srv.request.kinematics_pose.pose.orientation.z = kienmatics_orientation.at(3);
+  srv.request.kinematics_pose.pose.orientation.w = kinematics_orientation.at(0);
+  srv.request.kinematics_pose.pose.orientation.x = kinematics_orientation.at(1);
+  srv.request.kinematics_pose.pose.orientation.y = kinematics_orientation.at(2);
+  srv.request.kinematics_pose.pose.orientation.z = kinematics_orientation.at(3);
 
   srv.request.path_time = path_time;
 
@@ -125,7 +125,7 @@ void RspPickandPlace::kinematicsPoseCallback(const open_manipulator_msgs::Kinema
 
   present_kinematic_position_ = temp_position;
 }
-// Callback function to store AR marker pose in armakrer pose
+// Callback function to store AR marker pose in armarker pose
 void RspPickandPlace::arPoseMarkerCallback(const ar_track_alvar_msgs::AlvarMarkers::ConstPtr &msg)
 {
   std::vector<ArMarker> temp_buffer;
@@ -143,7 +143,7 @@ void RspPickandPlace::arPoseMarkerCallback(const ar_track_alvar_msgs::AlvarMarke
   ar_marker_pose = temp_buffer;
 }
 
-// Top callback 
+// Top callback
 void RspPickandPlace::publishCallback(const ros::TimerEvent&)
 {
   printText();
@@ -193,8 +193,6 @@ void RspPickandPlace::demoSequence()
   std::vector<double> kinematics_orientation;
   std::vector<double> gripper_value;
 
-
-
   switch (demo_count_)
   {
   case 0: // home pose
@@ -231,7 +229,7 @@ void RspPickandPlace::demoSequence()
       {
         kinematics_position.push_back(ar_marker_pose.at(i).position[0]);
         kinematics_position.push_back(ar_marker_pose.at(i).position[1]);
-        kinematics_position.push_back(0.05);
+        kinematics_position.push_back(0.025);
         kinematics_orientation.push_back(0.74);
         kinematics_orientation.push_back(0.00);
         kinematics_orientation.push_back(0.66);
@@ -255,20 +253,21 @@ void RspPickandPlace::demoSequence()
     joint_angle.push_back( 0.00);
     joint_angle.push_back( 1.90);
     setJointSpacePath(joint_name_, joint_angle, 1.0);
+
     demo_count_ ++;
     break;
   case 6: // place pose
+    joint_angle.push_back( 0.00);
+    joint_angle.push_back( 0.00);
+    joint_angle.push_back( 0.00);
     joint_angle.push_back( 1.57);
-    joint_angle.push_back(-0.21);
-    joint_angle.push_back(-0.15);
-    joint_angle.push_back( 1.89);
     setJointSpacePath(joint_name_, joint_angle, 1.0);
     demo_count_ ++;
     break;
   case 7: // place the box
     kinematics_position.push_back(present_kinematic_position_.at(0));
     kinematics_position.push_back(present_kinematic_position_.at(1));
-    if (pick_ar_id_ == 0)  kinematics_position.push_back(present_kinematic_position_.at(2)-0.076);
+    if (pick_ar_id_ == 123)  kinematics_position.push_back(present_kinematic_position_.at(2)-0.010);
     else if (pick_ar_id_ == 1)  kinematics_position.push_back(present_kinematic_position_.at(2)-0.041);
     else if (pick_ar_id_ == 2)  kinematics_position.push_back(present_kinematic_position_.at(2)-0.006);
     kinematics_orientation.push_back(0.74);
@@ -276,13 +275,17 @@ void RspPickandPlace::demoSequence()
     kinematics_orientation.push_back(0.66);
     kinematics_orientation.push_back(0.00);
     setTaskSpacePath(kinematics_position, kinematics_orientation, 2.0);
+
     demo_count_ ++;
     break;
   case 8: // wait & place
     setJointSpacePath(joint_name_, present_joint_angle_, 1.0);
     gripper_value.push_back(0.010);
     setToolControl(gripper_value);
-    demo_count_ ++;
+    pick_ar_id_ = 123;
+    demo_count_ = 0;
+    mode_state_ = DEMO_STOP;
+    //demo_count_ ++;
     break;
   case 9: // move up after place the box
     kinematics_position.push_back(present_kinematic_position_.at(0));
@@ -401,5 +404,3 @@ bool RspPickandPlace::kbhit()
   tcsetattr(0, TCSANOW, &term);
   return byteswaiting > 0;
 }
-
-

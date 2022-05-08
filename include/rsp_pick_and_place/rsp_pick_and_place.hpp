@@ -31,7 +31,7 @@ class RspPickandPlace
   ros::ServiceClient goal_tool_control_client_; // control gripper
   ros::ServiceClient goal_task_space_path_client_; // control OM in task space
 
-  ros::Subscriber open_manipulator_states_sub_; 
+  ros::Subscriber open_manipulator_states_sub_;
   ros::Subscriber open_manipulator_joint_states_sub_;
   ros::Subscriber open_manipulator_kinematics_pose_sub_;
   ros::Subscriber ar_pose_marker_sub_;
@@ -60,9 +60,9 @@ class RspPickandPlace
 
   bool setJointSpacePath(std::vector<std::string> joint_name, std::vector<double> joint_angle, double path_time);
   bool setToolControl(std::vector<double> joint_angle);
-  bool setTaskSpacePath(std::vector<double> kinematics_pose, std::vector<double> kienmatics_orientation, double path_time);
+  bool setTaskSpacePath(std::vector<double> kinematics_pose, std::vector<double> kinematics_orientation, double path_time);
 
-  void publishCallback(const ros::TimerEvent&); 
+  void publishCallback(const ros::TimerEvent&);
   void setModeState(char ch);
   void demoSequence();
 
