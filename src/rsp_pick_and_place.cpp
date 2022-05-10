@@ -229,7 +229,7 @@ void RspPickandPlace::demoSequence()
       {
         kinematics_position.push_back(ar_marker_pose.at(i).position[0]);
         kinematics_position.push_back(ar_marker_pose.at(i).position[1]);
-        kinematics_position.push_back(0.025);
+        kinematics_position.push_back(0.070);
         kinematics_orientation.push_back(0.74);
         kinematics_orientation.push_back(0.00);
         kinematics_orientation.push_back(0.66);
@@ -257,7 +257,7 @@ void RspPickandPlace::demoSequence()
     demo_count_ ++;
     break;
   case 6: // place pose
-    joint_angle.push_back( 0.00);
+    joint_angle.push_back( 0.50);
     joint_angle.push_back( 0.00);
     joint_angle.push_back( 0.00);
     joint_angle.push_back( 1.57);
@@ -268,8 +268,8 @@ void RspPickandPlace::demoSequence()
     kinematics_position.push_back(present_kinematic_position_.at(0));
     kinematics_position.push_back(present_kinematic_position_.at(1));
     if (pick_ar_id_ == 123)  kinematics_position.push_back(present_kinematic_position_.at(2)-0.010);
-    else if (pick_ar_id_ == 1)  kinematics_position.push_back(present_kinematic_position_.at(2)-0.041);
-    else if (pick_ar_id_ == 2)  kinematics_position.push_back(present_kinematic_position_.at(2)-0.006);
+    //else if (pick_ar_id_ == 1)  kinematics_position.push_back(present_kinematic_position_.at(2)-0.041);
+    //else if (pick_ar_id_ == 2)  kinematics_position.push_back(present_kinematic_position_.at(2)-0.006);
     kinematics_orientation.push_back(0.74);
     kinematics_orientation.push_back(0.00);
     kinematics_orientation.push_back(0.66);
