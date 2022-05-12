@@ -212,7 +212,11 @@ void RspPickandPlace::demoSequence()
     demo_count_ ++;
     break;
   case 2: // wait & open the gripper
-    setJointSpacePath(joint_name_, present_joint_angle_, 3.0);
+    joint_angle.push_back( 0.01);
+    joint_angle.push_back(-0.80);
+    joint_angle.push_back( 0.00);
+    joint_angle.push_back( 1.90);
+    setJointSpacePath(joint_name_, joint_angle, 3.0);
     gripper_value.push_back(0.010);
     setToolControl(gripper_value);
     demo_count_ ++;
