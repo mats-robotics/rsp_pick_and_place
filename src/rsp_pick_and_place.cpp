@@ -153,10 +153,10 @@ void RspPickandPlace::publishCallback(const ros::TimerEvent&)
   {
     std::vector<double> joint_angle;
 
-    joint_angle.push_back( 0.00);
+    joint_angle.push_back(0.00);
     joint_angle.push_back(-1.05);
-    joint_angle.push_back( 0.35);
-    joint_angle.push_back( 0.70);
+    joint_angle.push_back(0.35);
+    joint_angle.push_back(0.70);
     setJointSpacePath(joint_name_, joint_angle, 2.0);
 
     std::vector<double> gripper_value;
@@ -166,11 +166,11 @@ void RspPickandPlace::publishCallback(const ros::TimerEvent&)
   }
   else if (mode_state_ == DEMO_START)
   {
-    if (!open_manipulator_is_moving_) demoSequence();
+    if (!open_manipulator_is_moving_) 
+    demoSequence();
   }
   else if (mode_state_ == DEMO_STOP)
   {
-
   }
 }
 void RspPickandPlace::setModeState(char ch)
@@ -196,20 +196,20 @@ void RspPickandPlace::demoSequence()
   switch (demo_count_)
   {
   case 0: // home pose
-    joint_angle.push_back( 0.00);
+    joint_angle.push_back(0.00);
     joint_angle.push_back(-1.05);
-    joint_angle.push_back( 0.35);
-    joint_angle.push_back( 0.70);
+    joint_angle.push_back(0.35);
+    joint_angle.push_back(0.70);
     setJointSpacePath(joint_name_, joint_angle, 1.5);
     demo_count_ ++;
     break;
   case 1: // initial pose
-    joint_angle.push_back( 0.01);
+    joint_angle.push_back(0.01);
     joint_angle.push_back(-0.80);
-    joint_angle.push_back( 0.00);
-    joint_angle.push_back( 1.90);
+    joint_angle.push_back(0.00);
+    joint_angle.push_back(1.90);
     setJointSpacePath(joint_name_, joint_angle, 1.0);
-    demo_count_ ++;
+    demo_count_++;
     break;
   case 2: // wait & open the gripper
     joint_angle.push_back( 0.01);
@@ -219,7 +219,7 @@ void RspPickandPlace::demoSequence()
     setJointSpacePath(joint_name_, joint_angle, 3.0);
     gripper_value.push_back(0.010);
     setToolControl(gripper_value);
-    demo_count_ ++;
+    demo_count_++;
     // cut short the demo
     // pick_ar_id_ = 0;
     // demo_count_ = 0;
@@ -239,7 +239,7 @@ void RspPickandPlace::demoSequence()
         kinematics_orientation.push_back(0.66);
         kinematics_orientation.push_back(0.00);
         setTaskSpacePath(kinematics_position, kinematics_orientation, 2.0);
-        demo_count_ ++;
+        demo_count_++;
         return;
       }
     }
@@ -271,7 +271,8 @@ void RspPickandPlace::demoSequence()
   case 7: // place the box
     kinematics_position.push_back(present_kinematic_position_.at(0));
     kinematics_position.push_back(present_kinematic_position_.at(1));
-    if (pick_ar_id_ == 123)  kinematics_position.push_back(present_kinematic_position_.at(2)-0.010);
+    if (pick_ar_id_ == 123)  
+      kinematics_position.push_back(present_kinematic_position_.at(2)-0.010);
     //else if (pick_ar_id_ == 1)  kinematics_position.push_back(present_kinematic_position_.at(2)-0.041);
     //else if (pick_ar_id_ == 2)  kinematics_position.push_back(present_kinematic_position_.at(2)-0.006);
     kinematics_orientation.push_back(0.74);
